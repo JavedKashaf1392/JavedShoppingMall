@@ -1,0 +1,392 @@
+
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="ISO-8859-1">
+<title>Javed ShoppingMall</title>
+
+<link rel="icon" href="/image/icon.png" />
+<!-- Bootstrap core CSS -->
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/js/all.min.js"></script>  -->
+<script src="/js/myapp.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="/js/app.js"></script>
+<link th:href="@{/css/style.css}" rel="stylesheet" />
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/js/all.min.js"></script> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" crossorigin="anonymous" />
+
+<style>
+#btn {
+	color: white;
+	height: 35px;
+	width: 100px;
+	border-radius: 10px 10px 10px 10px;
+	text-align: center;
+	margin-top: 5px;
+}
+
+.pdf {
+	margin-bottom: 5px;
+}
+
+a {
+	text-align: center;
+}
+
+table, th, td {
+	border: 1px solid green;
+}
+
+thead {
+	background-color: forestgreen;
+	color: white;
+}
+
+th {
+	width: 110px;
+	height: 23px;
+}
+
+#btnAll {
+	/* margin-left: 20px; */
+	
+}
+
+#table {
+	
+}
+
+.table-responsive {
+	overflow-x: visible;
+}
+</style>
+
+<!--  format submitted to controller -->
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#prodId').on('change', function() {
+			this.form.submit();
+		});
+	});
+</script>
+
+<!-- Check alls records -->
+<script type="text/javascript" language="JavaScript">
+	function checkall() {
+		var checked = $('input:checkbox[id^="bulkwelcome_"]');
+		if ($('input.checkall').is(':checked')) {
+			var x = window
+					.confirm("Are you sure to want to Select these All ChecksBoxes!!!?");
+			if (x && checked.length > 0) {
+				$('.bulkwelcome').each(function() {
+					this.checked = true;
+				});
+			}
+		} else {
+			if (checked.length > 0) {
+				$('.bulkwelcome').each(function() {
+					this.checked = false;
+				});
+			}
+		}
+	}
+</script>
+
+<!--  slecect one one rows -->
+<script type="text/javascript" language="JavaScript">
+	function deleterecords() {
+		var ids = $('input:checkbox:checked.bulkwelcome').map(function() {
+			return this.value;
+		}).get();
+
+		if (ids.length == 0) {
+			alert("Please select at least one record");
+			return false;
+		}
+
+		var x = window
+				.confirm("Are you sure to want to delete these records ?");
+		if (x && (ids.length > 0)) {
+			window.location = "/product/deletebatch/" + ids;
+		}
+	}
+</script>
+
+
+<!-- --------------------------edit is her  -->
+<script type="text/javascript" language="JavaScript">
+	function editrecords() {
+		var ids = $('input:checkbox:checked.bulkwelcome').map(function() {
+			return this.value;
+		}).get();
+		if (ids.length == 0) {
+			alert("Please select at least one record");
+			return false;
+		}
+		/*  var x = window.confirm("Are you sure you want to edit this record?"); */
+		if ((ids.length > 0)) {
+			window.location = "/product/editrecors/" + ids;
+		}
+	}
+</script>
+
+
+
+<!-- for pdf generation -->
+<script type="text/javascript" language="JavaScript">
+	function pdf() {
+		var ids = $('input:checkbox:checked.bulkwelcome').map(function() {
+			return this.value;
+		}).get();
+		if (ids.length == 0) {
+			alert("Please select at least one record");
+			return false;
+		}
+		/*  var x = window.confirm("Are you sure you want to edit this record?"); */
+		if ((ids.length > 0)) {
+			window.location = "/product/pdf/" + ids;
+		}
+	}
+</script>
+<!-- pdf generation end -->
+
+
+<!-- for excel generation -->
+<script type="text/javascript" language="JavaScript">
+	function excel() {
+		var ids = $('input:checkbox:checked.bulkwelcome').map(function() {
+			return this.value;
+		}).get();
+		if (ids.length == 0) {
+			alert("Please select at least one record");
+			return false;
+		}
+		/*  var x = window.confirm("Are you sure you want to edit this record?"); */
+		if ((ids.length > 0)) {
+			window.location = "/product/excel/" + ids;
+		}
+	}
+</script>
+<!-- excel generation end -->
+
+<script>
+function myFunction() {
+    document.getElementById("myfrom").reset();
+}
+</script>
+
+</head>
+<!--    <h2>${err}</h2> -->
+
+<body class="conatiner">
+	<form action="/product/view/1">
+		<table align="center">
+			<tr>
+				<td><select name="productCategory" id="prodId"
+					class="form-control">
+						<option value="">Select Category</option>
+						<option value="Milk">Milk</option>
+						<option value="Organic">Organic</option>
+						<option value="InOrganic">InOrganic</option>
+				</select></td>
+			</tr>
+		</table>
+	</form>
+	<br>
+
+	<div class="container">
+
+		<div class="row">
+			<div class="col-4">
+				<div class="pdf">
+					<a th:href="@{/product/excel}" class="btn btn-warning"><i
+						class="fas fa-file-excel">&nbsp;</i>Excel</a> <a th:href="@{/product/pdf}"
+						class="btn btn-primary "><i class="fas fa-file-pdf ">&nbsp;</i>Pdf</a>
+					<a th:href="@{/product/charts}" class="btn btn-primary "><i class="fas fa-chart-pie">&nbsp;</i>Charts</a>
+						<a th:href="@{/}" class="btn btn-outline btn-info"><i
+						class="fa fa-home">&nbsp;</i>Home</a>
+				</div>
+
+
+				<!-- search start -->
+				<div>
+					<form id="myfrom"
+						class="form-inline d-flex justify-content-center md-form form-sm mt-0"
+						th:action="@{/product/view/1}">
+						<i class="fa fa-search" aria-hidden="true"></i> <input
+							class="form-control form-control-sm ml-3 w-75" type="text"
+							name="keyword" id="keyword" size="50" th:value="${keyword}"
+							required placeholder="Search" aria-label="Search"> &nbsp;
+						<button class="btn btn-warning text-white  fa fa-search"
+							type="submit">Search</button>
+						&nbsp; <input
+							class="btn btn-primary text-white fa fa-backspace" type="button" value="Clear" id="btnClear" onclick="myFunction()" />
+					</form>
+				</div>
+
+				<!-- search end -->
+
+				<div class="table-responsive">
+
+					<table class="table table-bordered table-hover" id="table">
+
+						<thead>
+							<tr>
+
+								<th><input type="checkbox" name="checkall"
+									class="checkall custom-control-input" id="checkall"
+									onclick="checkall()" /> <label class="custom-control-label"
+									for="checkall">All</label></th>
+
+								<th>Product Name</th>
+
+								<th>Product Price</th>
+								<th>Quantity</th>
+								<th>Discount</th>
+								<!-- <th>Avilable</th> -->
+								<th>Final Price</th>
+								<th>size</th>
+								<th>Tax</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<!-- <tr th:each="ob:${product}"> -->
+							<tr th:each="ob:${listProducts}">
+								<!-- <tr>    <%-- <td><img  src="<%=request.getContextPath()%>/imges/${v.image}" height="100" width="150" ></td> --%>
+					<td style="height:50px"> -->
+								<td><input type="checkbox" name="bulkwelcome"
+									class="bulkwelcome" id="bulkwelcome_${ob.productId}"
+									th:value="${ob.productId}" />&nbsp;</td>
+								<td th:text="${ob.productName}"></td>
+								<td th:text="${ob.productPrice}"></td>
+								<td th:text="${ob.productQyt}"></td>
+								<td th:text="${ob.discount}"></td>
+								<!-- <td th:text="${ob.isAvailable}"></td> -->
+								<td th:text="${ob.finalPrice}"></td>
+								<td th:text="${ob.size}"></td>
+								<td th:text="${ob.tax}"></td>
+								<!-- <td th:text="${ob.image}"></td> -->
+
+
+							</tr>
+						</tbody>
+
+					</table>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-10">
+						<div id="btnAll" align="center">
+							<input id="btn" class="btn btn-danger" type="button" value="Delete" name="delete" onclick="deleterecords();"> &nbsp;
+							<input id="btn" class="btn btn-primary" type="button" value="Update" name="edit" onclick="editrecords()">&nbsp;
+							<!--  <input id="btn" class="btn btn-success" type="button" value="Add" name="add">&nbsp; -->
+
+							<!-- for pdf -->
+							<input id="btn" class="btn btn-primary" type="button" value="Pdf"
+								name="pdf" onclick="pdf()"> &nbsp; <input id="btn"
+								class="btn btn-info text-center" type="button" value="Search"
+								name="add" onclick="addrecords()">&nbsp; <input id="btn"
+								class="btn btn-primary" type="button" value="excel" name="excel"
+								onclick="excel()">&nbsp; <a id="btn"
+								class="btn btn-success" th:href="@{/product/register}">Add
+								Product</a>
+						</div>
+					</div>
+				</div>
+
+
+
+				<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-center">
+
+
+						<div th:if="${totalPages > 1}">
+							Total Items: [[${totalItems}]]
+							&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp; <a
+								th:if="${currentPage > 1}" th:href="@{'/product/view/1'}">First</a>
+							<span th:unless="${currentPage > 1}">First</span> &nbsp;&nbsp; <a
+								th:if="${currentPage > 1}"
+								th:href="@{'/product/view/' + ${currentPage - 1}}">Previous</a>
+							<span th:unless="${currentPage > 1}">Previous</span> &nbsp;&nbsp;
+
+
+							<th:block th:if="${totalPages <= 4}">
+								<span th:each="i: ${#numbers.sequence(1, totalPages)}"> <a
+									th:if="${currentPage != i}"
+									th:href="@{'/product/view/' + ${i}}">[[${i}]]</a> <span
+									th:unless="${currentPage != i}">[[${i}]]</span> &nbsp;
+								</span>
+							</th:block>
+
+
+
+							<th:block th:if="${totalPages > 10}">
+								<th:block
+									th:if="${currentPage <= 5 || currentPage > totalPages - 4}">
+									<span th:each="i: ${#numbers.sequence(1, 5)}"> <a
+										th:if="${currentPage != i}"
+										th:href="@{'/product/view/' + ${i}}">[[${i}]]</a> <span
+										th:unless="${currentPage != i}">[[${i}]]</span> &nbsp;
+									</span>
+								</th:block>
+
+
+								<!-- showing the four number pages with dots  -->
+								<a th:if="${currentPage != i}"
+									th:href="@{'/product/view/' + 6  }">...</a>
+								<span
+									th:each="i: ${#numbers.sequence(totalPages - 4, totalPages)}">
+									<a th:if="${currentPage != i}"
+									th:href="@{'/product/view/' + ${i}}">[[${i}]]</a> <span
+									th:unless="${currentPage != i}">[[${i}]]</span> &nbsp;
+								</span>
+							</th:block>
+
+
+							<!-- when its greater it shows in both side values  -->
+							<th:block
+								th:if="${currentPage > 5 && currentPage < totalPages - 4}">
+
+								<a th:if="${currentPage != i}"
+									th:href="@{'/product/view/' + ${currentPage - 5 }}">...</a>
+
+			&nbsp;
+			
+			
+			<!-- for last 3 records show in both side -->
+								<span
+									th:each="i: ${#numbers.sequence(currentPage - 4, currentPage + 4)}">
+									<a th:if="${currentPage != i}"
+									th:href="@{'/product/view/' + ${i}}">[[${i}]]</a> <span
+									th:unless="${currentPage != i}">[[${i}]]</span> &nbsp;
+								</span>
+								<a th:if="${currentPage != i}"
+									th:href="@{'/product/view/' + ${currentPage + 5}}">...</a>
+							</th:block>
+
+
+
+							<a th:if="${currentPage < totalPages}"
+								th:href="@{'/product/view/' + ${currentPage + 1}}">Next</a> <span
+								th:unless="${currentPage < totalPages}">Next</span> &nbsp;&nbsp;
+
+							<a th:if="${currentPage < totalPages}"
+								th:href="@{'/product/view/' + ${totalPages}}">Last</a> <span
+								th:unless="${currentPage < totalPages}">Last</span>
+
+
+						</div>
+					</ul>
+				</nav>
+
+			</div>
+
+
+		<!-- 	<script th:src="@{/js/jquery.min.js}"></script>
+			<script th:src="@{/js/bootstrap.min.js}"></script> -->
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+<meta charset="ISO-8859-1">
+<title th:text="${title}"></title>
+<link rel="icon" href="/image/icon.png" />
+
+<script>
+/* $(document).ready(function() {
+    if(localStorage.getItem('popState') != 'shown'){
+        $("#popup").delay(2000).fadeIn();
+        localStorage.setItem('popState','shown')
+    }
+
+}); */
+</script>
+
+
+
+
+<style>
+
+html,body{
+height:100%;
+}
+
+.img-responsive {
+  max-width: 100%;
+  height: auto;
+  
+}
+
+.card-img-top{
+  max-width: 100%;
+  height: auto;
+  
+}
+  
+
+#li {
+  float: left;
+ /*  border:1px solid green; */
+  margin-top:15px;
+  margin-bottom:15px;
+ 
+}
+
+#ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+container{
+height: 100%;
+width:100%;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.thumbnail a>img, .thumbnail>img {
+    display: block;
+    width: 100%;
+     height:180px;
+    }
+    
+    img {
+    vertical-align: middle;
+   margin:auto;
+   
+} 
+
+
+
+
+
+
+
+
+</style>
+</head>
+
+<body>
+ <div class="">
+<div th:insert="fragments/commonui :: userhead"></div>
+	<div th:insert="fragments/commonui :: usermenu"></div>
+	</div>
+
+	 <div class="container" id="container">
+	
+	               
+	            <div>
+	          <ul class="row" id="ul" >
+				<th:block th:each="ob:${listActive}">
+				<li id="li" class="col-md-3" >
+				<div class="card">
+				<div class="card-body" style="background-color: rgb(227, 235, 218);">
+				<!-- discount -->
+				<div class="discount"  style=" background-color: white;color: #ba5253; padding: 1px 5px 2px 5px;padding-top: 1px;padding-right: 5px;padding-bottom: 2px;padding-left: 5px;border-radius: 7px;">GET&nbsp;<span th:text="${ob.discount}"></span>% off&nbsp;<i class="fas fa-asterisk" style="color: #ba5253;text-align:right"></i></div>
+					<div class="thumbnail"> <img th:src="@{/image/product/}+${ob.productId}+'.png'" class=" card-img-top img-responsive img-rounded img-thumbnail" data-sizes=auto sizes="75" style="border-radius: 7px;"></div>
+					
+					<div class="card-block" >
+					<h5 style="color: #000;font: 18px ProximaNovaA-Regular;" class="mt-3"><span class="card-title" th:text="${ob.productName}"></span></h5>
+					
+					<div><h6><span th:text="${ob.productCategory}" style="margin: 5px 0 3px;color: #999;font: 12px ProximaNovaA-Regular;"></span></h6></div>
+					
+					
+					<div>
+					<div><h4 style="color: #231f20;font: 18px ProximaNovaA-Regular;">RS:<del style="color:red;"><th:block th:text="${ob.productPrice}" ></th:block></del>&nbsp;
+					RS:<th:block th:with="result=${ob.productPrice - ob.discount * ob.productPrice / 100}">
+                    <th:block th:text="${result}"></th:block></h4>
+                    </div>
+                    </div>
+                    
+                    <p style="font-size: 14px;color: #333;font-family: ProximaNovaA-Regular;margin-bottom: 7px;line-height: 20px;"><i class="fas fa-shipping-fast"></i>&nbsp;<span>All slots are full! please try again later</span></p>
+					
+					<!-- product.price-product.discount * product.price/100 -->
+					<p style="font-size: 14px;color: #333;font-family: ProximaNovaA-Regular;margin-bottom: 7px;line-height: 5px;"><i class="fas fa-motorcycle"></i>&nbsp;<span>Express delivery :<del>Out of Stock</del></span><p>
+					
+   
+ 
+   <p style="font-size: 18px;color: red;font-family: ProximaNovaA-Regular;margin-bottom: 7px;line-height: 20px;">
+   <span th:if="${ob.productQyt} == 0 "><del>Out of Stock</del></span></p>
+  <p style="font-size: 18px;color: #333;font-family: ProximaNovaA-Regular;margin-bottom: 7px;line-height: 20px;">
+  <span th:if="${ob.productQyt} gt 0 "  th:text="${ob.productQyt} + ' InStock' "></span>
+  </p>
+
+   		
+				
+				<p style="font-size: 18px;color: #333;font-family: ProximaNovaA-Regular;margin-bottom: 7px;line-height: 20px;">
+				<th:block th:text="${ob.size} + ' kg'" ></th:block></p>
+				
+				    <th:block th:if="${ob.productQyt} == 0 ">
+					 <a th:href="@{/cart/add}" class="btn btn-success col-xs-9 disabled" style="float:right">ADD <span class="fa fa-shopping-cart"></span></a> </th:block> 
+					
+					<th:block th:if="${ob.productQyt != 0}" ><!-- <button type="button" class="btn btn-success">ADD</button> -->
+					  <a th:href="@{/cart/add}" class="btn btn-success col-xs-9" style="float:right">ADD <span class="fa fa-shopping-cart"></span></a>
+					
+		       
+					</th:block>
+					
+					</div>
+					  </div>
+					  </div>
+					
+					</th:block>
+					
+					<li>
+					</ul>
+					</div>
+					</div>
+					
+					
+</body>
+</html>

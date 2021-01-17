@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+ <head>
+
+<!-- CSS only -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+    
+<!-- <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" /> -->
+<!-- JS, Popper.js, and jQuery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/js/all.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        <style>
+            html, body * { box-sizing: border-box; font-family: 'Open Sans', sans-serif; }
+
+body {
+  background:
+    linear-gradient(
+    rgba(255,250,252,0.8),
+    rgba(255,250,252,0.8)),
+    url(https://dl.dropboxusercontent.com/u/22006283/preview/codepen/sky-clouds-cloudy-mountain.jpg) no-repeat center center fixed;
+  background-size: cover;
+}
+
+.container {
+  width: 100%;
+  padding-top: 60px;
+  padding-bottom: 100px;
+  
+}
+
+.frame {
+  height: 530px;
+  width: 430px;
+  background:
+    linear-gradient(
+     rgba(255,255,255,0.75),
+     
+    rgba(255,255,255, 0.95)), 
+   
+    url(https://dl.dropboxusercontent.com/u/22006283/preview/codepen/clouds-cloudy-forest-mountain.jpg) no-repeat center center;
+  background-size: cover;
+  margin-left: auto;
+  margin-right: auto;
+  border-top: solid 1px rgba(255,255,255,.5);
+  border-radius: 5px;
+  box-shadow:  1px 1px 1px  #956d6d;
+  overflow: hidden;
+  transition: all .5s ease;
+  border: 1px solid green;
+}
+
+.frame-long {
+  height: 675px;
+}
+
+.frame-short {
+  height: 350px;
+  margin-top: 20px;
+  box-shadow: 0px 2px 7px rgba(0,0,0,0.1);
+}
+
+.nav {
+  width: 100%;
+  height: 100px;
+  padding-top: 10px;
+  opacity: 1;
+  transition: all .5s ease;
+}
+
+.nav-up {
+  transform: translateY(-100px);
+  opacity: 0;
+}
+
+li {
+  padding-left: 10px;
+  font-size: 18px;
+  display: inline;
+  text-align: left;
+  text-transform: uppercase;
+  padding-right: 10px;
+  color: green;
+}
+
+.signin-active a {
+  padding-bottom: 10px;
+  color: green;
+  text-decoration: none;
+  border-bottom: solid 2px green;
+  transition: all .25s ease;
+  cursor: pointer;
+}
+
+.signin-inactive a {
+  padding-bottom: 0;
+  color: green;;
+  text-decoration: none;
+  border-bottom: none;
+  cursor: pointer;
+}
+
+.signup-active a {
+  cursor: pointer;
+  color: green;
+  text-decoration: none;
+  border-bottom: solid 2px green;
+  padding-bottom: 0px;
+}
+
+.signup-inactive a {
+  cursor: pointer;
+  color: green;
+  text-decoration: none;
+  transition: all .25s ease;
+}
+
+.form-signin {
+  width: 430px;
+  height: 340px;
+	font-size: 16px;
+	font-weight: 300;
+  padding-left: 37px;
+  padding-right: 37px;
+  transition: opacity .5s ease, transform .5s ease;
+}
+
+.form-signin-left {
+  transform: translateX(-400px);
+  opacity: .0;
+}
+
+.form-signup {
+  width: 430px;
+  height: 375px;
+	font-size: 16px;
+	font-weight: 300;
+  padding-left: 37px;
+  padding-right: 37px;
+  padding-top: 55px;
+  position: relative;
+  top: -375px;
+  left: 400px;
+  opacity: 0;
+  transition: all .5s ease;
+}
+
+.form-signup-left {
+  transform: translateX(-399px);
+  opacity: 1;
+}
+
+.form-signup-down {
+  top: 0px;
+  opacity: 0;
+}
+
+.success {
+  width: 80%;
+  height: 150px;
+  text-align: center;
+  position: relative;
+  top: -890px;
+  left: 450px;
+  opacity: .0;
+  transition: all .8s .4s ease;
+}
+
+.success-left {
+  transform: translateX(-406px);
+  opacity: 1;
+}
+
+.successtext {
+  color: black;;
+	font-size: 16px;
+	font-weight: 300;
+  margin-top: -35px;
+  padding-left: 37px;
+  padding-right: 37px;
+}
+
+#check path {
+    stroke: black;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    stroke-width: .85px;
+    stroke-dasharray: 60px 300px;
+    stroke-dashoffset: -166px;
+    fill: rgba(255,255,255,.0);
+    transition: stroke-dashoffset 2s ease .5s, fill 1.5s ease 1.0s;
+}
+
+#check.checked path {
+    stroke-dashoffset: 33px;
+    fill: rgba(255,255,255,.03);
+}
+
+.form-signin input, .form-signup input {
+  color: black;
+  font-size: 15px;
+}
+
+.form-styling {
+  width: 100%;
+  height: 35px;
+	padding-left: 15px;
+	/* border: none; */
+	border-radius: 20px;
+  margin-bottom: 20px;
+  background:white;
+
+  border: 1px solid #4BB543;
+}
+
+.form-styling1{
+  width: 100%;
+  height: 35px;
+	padding-left: 15px;
+	/* border: none; */
+	border-radius: 20px;
+  margin-bottom: 14px;
+  background:white;
+  border: 1px solid #4BB543;
+}
+
+
+
+label {
+  font-weight: 400;
+  /* text-transform: uppercase; */
+  font-size: 17px;
+  padding-left: 15px;
+  padding-bottom: 3px;
+  margin-top: -3px;
+  color:black;
+  display: block;
+}
+
+:focus {outline: none;
+}
+
+.form-signin input:focus, textarea:focus, .form-signup input:focus, textarea:focus {
+    /* border: none;  */
+    padding-right: 40px;
+ }
+
+
+
+
+ .btn-signin {
+  float: left;
+  border: none;
+  border-radius: 20px;
+  margin-top: 20px;
+  text-decoration: none;
+} 
+
+
+.btn-animate-grow {
+  width: 130%;
+  height: 625px;
+  position: relative;
+  left: -55px;
+  top: -420px;
+  color:green;
+  background-color: red;
+}
+
+a.btn-signup:hover, a.btn-signin:hover {
+    cursor: pointer; 
+    text-decoration: none;
+    background-color: none;
+    color: white;
+    transition: background-color .5s; 
+}
+
+
+.forgot {
+  margin-top: 70px;
+  transition: all 0.5s ease;
+}
+
+ .forgot a {
+  color: #4BB453;
+  font-weight: 400;
+  font-size: 18px;
+  text-decoration: none;
+  margin-left:3px;
+} 
+
+
+
+h1 {
+  color: green;
+  font-size: 35px;
+	font-weight: 300;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.btn-goback {
+  position: relative;
+  margin-right: auto;
+  top: -400px;
+  float: left;
+  padding: 8px;
+  width: 83%;
+  margin-left: 37px;
+  margin-right: 37px;
+  height: 35px;
+	border-radius: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 13px;
+  text-align: center;
+  color: white;
+  margin-top: -8px;
+  border: solid 1px green;
+  opacity: 0;
+  transition: top 1.5s ease 0.35s, opacity .75s ease .5s;
+}
+.form-check-input{
+font-size:20px;
+
+}
+.check{
+margin-left:10px;
+font-size:18px;
+}
+.check .form-check-label .form-check-input{
+font-size:16px;
+}
+
+.img-responsive{
+margin-left:150px;
+margin-bottom:0px;
+margin-top:5px;
+}
+.thumbnail a>img, .thumbnail>img {
+    display: block;
+    width: 100%;
+     height:180px;
+}
+  .img-responsive {
+  max-width: 100%;
+  height: auto;
+  
+}
+.btn-signup{
+float: left;
+  border: none;
+  border-radius: 40px;
+  margin-top: 0px;
+  text-decoration: none;
+
+
+}
+
+        </style>
+
+    </head>
+
+    <body>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+
+
+<div th:if="${param.error}" class="text-danger verify">Invalid
+					User Details</div>
+				<div th:if="${param.logout}" class="text-white verify">You
+					have been logged out.</div>
+
+
+<div class="container">
+
+  <div class="frame"> 
+  
+  <img src="/image/icon.png" class="img-responsive">
+    <div class="nav">
+      <ul class="links">
+        <li class="signin-active"><a class="btn">Sign in</a></li>
+        <li class="signup-inactive"><a class="btn">Sign up </a></li>
+      </ul>
+    </div>
+    <div>
+    
+		  <form class="form-signin" th:action="@{/login}" method="POST" name="form">
+          <label for="username">Email</label>
+          <input class="form-styling" type="text" name="username" placeholder="Enter Email"/>
+          <label for="password">Password</label>
+          <input class="form-styling" type="text" name="password" placeholder="Enter Your Password"/>
+          
+        <div class="check">
+    <label class="form-check-label"> <input class="form-check-input" type="checkbox"> Remember me</label>
+          </div> 
+          <div class="btn-animat" >
+           <button class=" btn-signin btn btn-success btn-block"  type="submit">Sign in</button>
+          </div>
+          
+          <div class="forgot">
+           <a th:href="@{/login/forgot_password}">Forgot your password?</a>
+          </div>
+                        </form>
+		  <form class="form-signup" th:action="@{/customer/customerSave}" method="post" name="form">
+    
+          <input class="form-styling1" type="text" name="fullname" placeholder="full Name"/>
+          
+          <input class="form-styling1" type="text" name="lastname" placeholder="Last Name"/>
+         
+          <input class="form-styling1" type="text" name="email" placeholder="Email"/>
+          
+          <input class="form-styling1" type="text" name="pazzword" placeholder="Password"/>
+          
+          <input class="form-styling1" type="text" name="confirm-pazzword" placeholder="Confirm Password"/>
+          
+          <input class="form-styling1" type="text" name="state" placeholder="Enter State"/>
+          <input class="form-styling1" type="text" name="city" placeholder="Enter city"/>
+          <input class="form-styling1" type="text" name="location" placeholder="plot no and area"/>
+         
+          <div class="btn-animate">
+           <button type="submit" class="btn-signup btn btn-success btn-block">Sign Up</button>
+          </div>
+         
+                        </form>
+                        <hr style="height:2px;border-width:0; margin-top: 40px; color:gray;background-color:gray ">
+                        
+                          </div>
+                          </div>
+                          </div>
+                          
+
+<script>
+    $(function() {
+        $(".btn").click(function() {
+            $(".form-signin").toggleClass("form-signin-left");
+        $(".form-signup").toggleClass("form-signup-left");
+        $(".frame").toggleClass("frame-long");
+        $(".signup-inactive").toggleClass("signup-active");
+        $(".signin-active").toggleClass("signin-inactive");
+        $(".forgot").toggleClass("forgot-left");   
+        $(this).removeClass("idle").addClass("active");
+        });
+    });
+    
+</script>
+    </body>
+</html>

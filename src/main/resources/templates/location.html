@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- Bootstrap core CSS -->
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+<!-- <script src="/js/myapp.js"></script>
+<script src="/js/app.js"></script> -->
+<!-- Custom styles for this template -->
+<link th:href="@{/css/style.css}" rel="stylesheet" />
+<!-- <link th:href="@{/js/app.js}" rel="stylesheet" />  -->
+<script>
+	
+</script>
+
+</head>
+<body>
+<h1>Registration Forms</h1>
+ 
+<form th:action="@{/location/save}" method="post" th:object="${country}">
+<table>
+
+   <tr>
+   <th>Country:</th>
+   <td><select th:field="*{countryId}" class="form-control">
+   <option value="">SELECT</option> 
+   <option th:each="ob:${countryMap}" th:value="${ob.key}" th:text="${ob.value}"/>
+   </select>
+   </td>
+   </tr>
+   
+   <tr>
+   <th>State:</th>
+   <td>
+   <select th:field="*{stateId}" class="form-control">
+   <option value="">-Select-</option>
+   </select>
+   </td>
+   </tr>
+ 
+ <tr>
+     <td><input type="submit" value="Save"/>
+     <input type="reset" value="Reset"/></td>
+     </tr>  
+</table>
+</form>
+
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+
+<script type="text/javascript" language="JavaScript">
+$(document).ready(function(event) {
+	$("#countryId").change(function() {
+		
+		$("#stateId").find('option').remove();
+		$('<option>').val('').text('-Select-').appendTo("#stateId");
+		
+		$("#cityId").find('option').remove();
+		$('<option>').val('').text('-Select-').appendTo("#cityId");
+		
+		var countryId = $("#countryId").val();
+		$.ajax({
+			type : "GET",
+			url : "getStates?cid=" + countryId,
+			success : function(res) {
+				$.each(res, function(stateId, stateName) {
+					$('<option>').val(stateId).text(stateName).appendTo("#stateId");
+				});
+			}
+		});
+	});
+
+	$("#stateId").change(function() {
+		
+		$("#cityId").find('option').remove();
+		$('<option>').val('').text('-Select-').appendTo("#cityId");
+		var stateId = $("#stateId").val();
+		$.ajax({
+			type : "GET",
+			url : "getCities?sid=" + stateId,
+			success : function(data) {
+				$.each(data, function(cityId, cityName) {
+					$('<option>').val(cityId).text(cityName).appendTo("#cityId");
+				});
+			}
+		});
+	});
+});
+
+
+</script> 
+
+</body>
+</html>
