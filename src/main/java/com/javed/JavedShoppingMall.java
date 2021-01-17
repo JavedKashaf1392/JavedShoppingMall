@@ -16,8 +16,8 @@ import com.javed.service.CustomerService;
 @SpringBootApplication
 public class JavedShoppingMall implements CommandLineRunner{
 	
-	@Autowired
-	private CustomerService service;
+//	@Autowired
+//	private CustomerService service;
 
 	public static void main(String[] args) {	
 		SpringApplication.run(JavedShoppingMall.class, args);
